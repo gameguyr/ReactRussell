@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import PropTypes from 'prop-types'
 
 import russMonstaForgeLogo from "./forging.jpeg";
 import bowieKnifeImage from "./bowie_knife.jpeg"
 import kukriKnifeImage from "./kukri_knife.jpeg"
 import tantoKnifeImage from "./tanto_knife.jpeg"
+import basicKnife from "./basic_knife.jpeg"
 
 
 
@@ -17,15 +19,18 @@ let knifeList = [
     {"name": "Bowie", "point": "clip point", "origin": "United States of America", "image": bowieKnifeImage},
     {"name": "Kukri", "point": "drop point", "origin": "Indian Sub-Continent", "image": kukriKnifeImage},
     {"name": "Tanto", "point": "Tanto point", "origin": "Japan", "image": tantoKnifeImage},
+    {}
 ]
+
+// let knifeList = {}
+// this was for testing to see if the propTypes was working correctly, can see on console
 
 const russ_image_style = {
     resizeMode: "cover",
     minWidth: "330px",
     width: "10vw"
 };
-
-const Knife = ({name, point, origin, freeKnife, image}) => {
+const Knife = ({name = "Basic Knife", point = "Standard", origin = "Unknown", freeKnife=true, image = basicKnife}) => {
     // getKnifeImage = (Knife) => ()
 
 
@@ -42,22 +47,13 @@ const Knife = ({name, point, origin, freeKnife, image}) => {
     )
 }
 
-// const KnifeImage = (name) => {
-//     return (
-//         if (name=='Bowie'){
-//             <Image src={bowieKnifeImage} style={russ_image_style} />
-//         }
-//
-//
-//     )
-//
-// }
-
-// knifeCorrect = (name) => {
-//
-// }
+// defaultProps =
 
 class KnifeLibrary extends React.Component {
+
+    static defaultProps = {
+        knives: [{"name": "Basic Knife", "point": "Standard", "origin":"Unknown", "freeKnife": true, "image": basicKnife}]
+    }
 
     state = {
         is_open: true,
@@ -95,10 +91,21 @@ class KnifeLibrary extends React.Component {
     }
 }
 
+KnifeLibrary.propTypes = {
+    knives: PropTypes.array
+}
+
+Knife.propTypes = {
+    name: PropTypes.string,
+    point: PropTypes.string,
+    origin: PropTypes.string,
+    freeKnife: PropTypes.bool
+}
 
 
 ReactDOM.render(
     <KnifeLibrary knives={knifeList}/>,
+    // <KnifeLibrary />,
   document.getElementById('root')
 );
 
